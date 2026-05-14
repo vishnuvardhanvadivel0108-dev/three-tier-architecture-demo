@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 function App() {
+  return (
+    <div>
+      <h1>CI/CD Deployment Success</h1>
+    </div>
+  );
 
   const [employees, setEmployees] = useState([]);
 
