@@ -1,36 +1,73 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 
 function App() {
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: ""
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const submitForm = async () => {
+
+    await axios.post("http://localhost:5001/register", formData);
+
+    alert("User Registered Successfully");
+
+    setFormData({
+      name: "",
+      email: "",
+      phone: ""
+    });
+  };
+
   return (
-    <div>
-      <h1>CI/CD Deployment Success</h1>
-    </div>
-  );
+    <div style={{ padding: "40px" }}>
 
-  const [employees, setEmployees] = useState([]);
+      <h1>User Registration Form</h1>
 
-  useEffect(() => {
-    axios.get('http://localhost:5000/employees')
-      .then(response => {
-        setEmployees(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, []);
+      <input
+        type="text"
+        name="name"
+        placeholder="Enter Name"
+        value={formData.name}
+        onChange={handleChange}
+      />
 
-  return (
-    <div style={{ padding: '30px' }}>
-      <h1>Employee List</h1>
+      <br /><br />
 
-      {employees.map(emp => (
-        <div key={emp.id}>
-          <h3>{emp.name}</h3>
-          <p>{emp.role}</p>
-          <hr />
-        </div>
-      ))}
+      <input
+        type="email"
+        name="email"
+        placeholder="Enter Email"
+        value={formData.email}
+        onChange={handleChange}
+      />
+
+      <br /><br />
+
+      <input
+        type="text"
+        name="phone"
+        placeholder="Enter Phone"
+        value={formData.phone}
+        onChange={handleChange}
+      />
+
+      <br /><br />
+
+      <button onClick={submitForm}>
+        Register
+      </button>
+
     </div>
   );
 }
