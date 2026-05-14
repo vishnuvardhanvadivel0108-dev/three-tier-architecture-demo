@@ -3,12 +3,6 @@ pipeline {
 
     stages {
 
-        stage('Clone Repository') {
-            steps {
-                git 'https://github.com/vishnuvardhanvadivel0108-dev/three-tier-architecture-demo.git'
-            }
-        }
-
         stage('Build Docker Containers') {
             steps {
                 bat 'docker-compose down'
