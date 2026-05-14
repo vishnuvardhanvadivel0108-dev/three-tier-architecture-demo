@@ -5,8 +5,8 @@ pipeline {
 
         stage('Build Docker Containers') {
             steps {
-                sh 'docker-compose down'
-                 sh 'docker-compose up --build -d'
+                docker compose down
+                docker compose up --build -d
             }
         }
 
@@ -15,5 +15,6 @@ pipeline {
                 sh 'docker ps'
             }
         }
+
     }
 }
