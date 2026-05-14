@@ -1,28 +1,32 @@
-version: '3'
-
 services:
 
   mysql:
     image: mysql:8
     container_name: mysql-container
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root123
-      MYSQL_DATABASE: companydb
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: testdb
     ports:
       - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
 
   backend:
     build: ./backend
     container_name: backend-container
+    restart: always
     ports:
       - "5001:5000"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
 
   frontend:
     build: ./frontend
     container_name: frontend-container
+    restart: always
     ports:
       - "3000:3000"
-    depends_on:
-      - backend

@@ -7,34 +7,43 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const db = mysql.createConnection({
-  host: "mysql-container",
+const db = mysql.createPool({
+  host: "mysql",
   user: "root",
   password: "root",
-  database: "testdb"
+  database: "testdb",
+  port: 3306
 });
 
-db.connect((err) => {
+db.getConnection((err, connection) => {
+
   if (err) {
-    console.log(err);
+    console.log("DB Error:", err);
   } else {
     console.log("MySQL Connected");
+    connection.release();
   }
+
 });
 
 app.post("/register", (req, res) => {
+
   const { name, email, phone } = req.body;
 
   const sql =
     "INSERT INTO users (name, email, phone) VALUES (?, ?, ?)";
 
   db.query(sql, [name, email, phone], (err, result) => {
+
     if (err) {
-      res.send(err);
+      console.log(err);
+      res.send("Error");
     } else {
       res.send("User Registered Successfully");
     }
+
   });
+
 });
 
 app.listen(5000, () => {

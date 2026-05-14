@@ -3,68 +3,60 @@ import axios from "axios";
 
 function App() {
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: ""
-  });
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+  const registerUser = async () => {
 
-  const submitForm = async () => {
+    try {
 
-    await axios.post("http://localhost:5001/register", formData);
+      await axios.post("http://localhost:5001/register", {
+        name: name,
+        email: email,
+        phone: phone
+      });
 
-    alert("User Registered Successfully");
+      alert("User Registered Successfully");
 
-    setFormData({
-      name: "",
-      email: "",
-      phone: ""
-    });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
-    <div style={{ padding: "40px" }}>
+    <div style={{ padding: "50px" }}>
 
       <h1>User Registration Form</h1>
 
       <input
         type="text"
-        name="name"
         placeholder="Enter Name"
-        value={formData.name}
-        onChange={handleChange}
+        value={name}
+        onChange={(e) => setName(e.target.value)}
       />
 
       <br /><br />
 
       <input
         type="email"
-        name="email"
         placeholder="Enter Email"
-        value={formData.email}
-        onChange={handleChange}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
       />
 
       <br /><br />
 
       <input
         type="text"
-        name="phone"
         placeholder="Enter Phone"
-        value={formData.phone}
-        onChange={handleChange}
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
       />
 
       <br /><br />
 
-      <button onClick={submitForm}>
+      <button onClick={registerUser}>
         Register
       </button>
 
