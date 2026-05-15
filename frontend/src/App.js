@@ -27,7 +27,7 @@ function App() {
   return (
     <div style={{ padding: "50px" }}>
 
-      <h1>User Registration Form</h1>
+      <h1>Login Registration Form</h1>
 
       <input
         type="text"
